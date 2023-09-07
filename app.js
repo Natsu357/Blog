@@ -61,14 +61,14 @@ app.get('/compose',async (req,res)=>{
   const id=req.query.id
   const post =await Post.findOne({_id:id})
   if(id!=null){
-  res.render("Compose.ejs",{post:post})
+  res.render("compose.ejs",{post:post})
   }
   else{
     var post1={
       title:"",
       content:""
     }
-    res.render("Compose.ejs",{post:post1})
+    res.render("compose.ejs",{post:post1})
   }
 })
 app.get('/posts/:id',(req,res)=>{
