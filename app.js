@@ -24,20 +24,19 @@ Now you might be wondering, where do the superheroes come in? What happens to ea
 Well, the answers to those questions are in this very story. The superheroes are the children who built eco bricks, the schools that implemented green programs, the parents who decided to invest in conscious games, Amishi, Manav and countless changemakers along the way who made (and continue to make) an active choice to be a part of the climate fight! As for the future, we’re absolutely positive that our children and grandchildren will be able to live in a beautiful world, with wide rivers, lush forests and fertile land. So now that you know our origin story, are you ready to join the league?`
 
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
-
-
-async function run (){
-
+async function connect(){
 await mongoose.connect("mongodb+srv://sashanknaga:12345@cluster0.p5nzmdd.mongodb.net/blogDB")
-
+}
+connect();
 const postSchema=mongoose.Schema({
   title:String,
   content:String
 })
 
 const Post=mongoose.model("Post",postSchema)
-
-let posts =await Post.find({})
+async function posts(){
+let posts =await Post.find({})}
+posts();
 
 const app = express();
 
@@ -57,6 +56,20 @@ app.get('/about',(req,res)=>{
 })
 app.get('/contact',(req,res)=>{
   res.render("contact.ejs",{contactContent:contactContent})
+})
+app.get('/compose',async (req,res)=>{
+  const id=req.query.id
+  const post =await Post.findOne({_id:id})
+  if(id!=null){
+  res.render("Compose.ejs",{post:post})
+  }
+  else{
+    var post1={
+      title:"",
+      content:""
+    }
+    res.render("Compose.ejs",{post:post1})
+  }
 })
 app.get('/posts/:id',(req,res)=>{
   const id =req.params.id
@@ -102,19 +115,3 @@ const port=process.env.PORT || 3000
 app.listen(port, function() {
   console.log(`Server started on port ${port}`);
 });
-}
-run()
-app.get('/compose',async (req,res)=>{
-  const id=req.query.id
-  const post =await Post.findOne({_id:id})
-  if(id!=null){
-  res.render("Compose.ejs",{post:post})
-  }
-  else{
-    var post1={
-      title:"",
-      content:""
-    }
-    res.render("Compose.ejs",{post:post1})
-  }
-})
