@@ -58,20 +58,6 @@ app.get('/about',(req,res)=>{
 app.get('/contact',(req,res)=>{
   res.render("contact.ejs",{contactContent:contactContent})
 })
-app.get('/compose',async (req,res)=>{
-  const id=req.query.id
-  const post =await Post.findOne({_id:id})
-  if(id!=null){
-  res.render("Compose.ejs",{post:post})
-  }
-  else{
-    var post1={
-      title:"",
-      content:""
-    }
-    res.render("Compose.ejs",{post:post1})
-  }
-})
 app.get('/posts/:id',(req,res)=>{
   const id =req.params.id
   
@@ -118,3 +104,17 @@ app.listen(port, function() {
 });
 }
 run()
+app.get('/compose',async (req,res)=>{
+  const id=req.query.id
+  const post =await Post.findOne({_id:id})
+  if(id!=null){
+  res.render("Compose.ejs",{post:post})
+  }
+  else{
+    var post1={
+      title:"",
+      content:""
+    }
+    res.render("Compose.ejs",{post:post1})
+  }
+})
